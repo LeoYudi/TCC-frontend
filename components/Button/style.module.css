@@ -1,0 +1,23 @@
+.button {
+  font-weight: bold;
+  width: 100%;
+  cursor: pointer;
+}
+
+.button>div {
+  background-color: #f9aa33;
+  padding: 10px 20px;
+  border-radius: 3px;
+}
+
+.button>div:hover {
+  background-color: #e6900f;
+}
+
+.secondaryButton {
+  color: #f9aa33;
+}
+
+.secondaryButton>div {
+  background-color: #344955;
+}

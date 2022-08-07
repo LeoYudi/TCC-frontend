@@ -1,18 +1,16 @@
 {
   "extends": [
     "next/core-web-vitals",
-    "plugin:prettier/recommended"
-  ],
-  "plugins": [
-    "prettier"
+    "eslint:recommended"
   ],
   "rules": {
-    "prettier/prettier": [
+    "function-call-argument-newline": [
       "error",
-      {
-        "singleQuote": true,
-        "jsxSingleQuote": true
-      }
+      "consistent"
+    ],
+    "quotes": [
+      "error",
+      "single"
     ]
   }
 }
