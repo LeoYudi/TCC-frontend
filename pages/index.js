@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { MdRemoveRedEye, MdDelete } from 'react-icons/md';
 
@@ -15,6 +16,7 @@ async function deleteRecord(id) {
 }
 
 export default function Home() {
+  const router = useRouter();
   const [records, setRecords] = useState([]);
   const [isLoading, setLoading] = useState(false);
 
@@ -56,7 +58,7 @@ export default function Home() {
               <div
                 className={styles.option}
                 onClick={() => {
-                  console.log('teste');
+                  router.push(`/record/${record._id}`);
                 }}
               >
                 <MdRemoveRedEye />
