@@ -13,7 +13,7 @@ function Marks({
     <g className="marks">
       <path
         fill="none"
-        stroke="black"
+        stroke="#2f5ec4"
         d={line()
           .x(d => xScale(xValue(d)))
           .y(d => yScale(yValue(d)))
@@ -23,7 +23,7 @@ function Marks({
       {
         data.map((d, index) => (
           <circle key={index} cx={xScale(xValue(d))} cy={yScale(yValue(d))} r={circleRadius}>
-            <title>{xValue(d)}</title>
+            <title>{`${yValue(d)}, ${xValue(d)}`}</title>
           </circle>
         ))
       }

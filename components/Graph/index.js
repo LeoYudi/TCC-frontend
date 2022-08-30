@@ -8,7 +8,7 @@ import style from './style.module.css';
 
 function Graph({ data, xAxisLabel, yAxisLabel }) {
 
-  const width = 960;
+  const width = 700;
   const height = 500;
   const margin = { top: 20, right: 30, bottom: 65, left: 90 };
   const xAxisLabelOffset = 50;
@@ -32,7 +32,7 @@ function Graph({ data, xAxisLabel, yAxisLabel }) {
 
   return (
 
-    <svg width={width} height={height} className={style.fodase}>
+    <svg width={width} height={height} className={style.graph}>
       <g transform={`translate(${margin.left},${margin.top})`}>
         <AxisBottom
           xScale={xScale}

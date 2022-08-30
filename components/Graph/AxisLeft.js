@@ -3,7 +3,7 @@ function AxisLeft({ yScale, innerWidth, tickOffset = 3 }) {
   return (
     yScale.ticks().map((tickValue) => (
       <g key={tickValue} className="tick" transform={`translate(0,${yScale(tickValue)})`}>
-        <line x1={0} x2={innerWidth} />
+        <line x2={innerWidth} />
         <text
           style={{ textAnchor: 'end' }}
           x={-tickOffset}

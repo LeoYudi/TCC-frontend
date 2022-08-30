@@ -1,9 +1,9 @@
-import styles from './style.module.css';
+import style from './style.module.css';
 
-function Button({ text, clickHandler, isPrimary }) {
+function Button({ text, clickHandler, isPrimary = true }) {
   return (
     <a
-      className={`${styles.button} ${isPrimary ? '' : styles.secondaryButton}`}
+      className={`${style.button} ${isPrimary ? '' : style.secondaryButton}`}
       onClick={clickHandler}
     >
       <div>{text}</div>

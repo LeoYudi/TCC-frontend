@@ -1,3 +1,7 @@
-.fodase line {
-  stroke: gray;
+.graph line {
+  stroke: rgb(199, 199, 199);
+}
+
+.graph circle {
+  fill: #1c4aad;
 }

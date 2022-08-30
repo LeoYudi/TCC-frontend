@@ -11,7 +11,7 @@ async function fetch_api(method, route, body = undefined) {
       body: JSON.stringify(body),
     })
       .then(data => res(data.json()))
-      .catch(error => rej(error.json()));
+      .catch(error => rej(error));
   });
 }
 

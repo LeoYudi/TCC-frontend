@@ -1,12 +1,12 @@
-import styles from './style.module.css';
+import style from './style.module.css';
 
 function Loading({ isLoading = false }) {
   return (
     <div
-      className={styles.container}
+      className={style.container}
       style={isLoading ? {} : { display: 'none' }}
     >
-      <div className={styles.loading}>
+      <div className={style.loading}>
         <div></div>
         <div></div>
         <div></div>

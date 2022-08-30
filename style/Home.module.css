@@ -54,6 +54,7 @@
 
 .option {
   cursor: pointer;
+  position: relative;
 }
 
 .option:first-child:hover>svg {
@@ -61,10 +62,39 @@
 }
 
 .option:nth-child(2):hover>svg {
+  color: #00c71b;
+}
+
+.option:nth-child(3):hover>svg {
   color: #f51818;
 }
 
 .option>svg {
   width: 23px;
   height: 23px;
+}
+
+.option>div {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.option:hover>div {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modalContent {
+  padding: 0 20px;
+}
+
+.sensorName {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.sensorName:first-child {
+  margin-top: 0;
 }

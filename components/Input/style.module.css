@@ -1,0 +1,12 @@
+.container {
+  border: 1px solid gray;
+  border-radius: 5px;
+  background-color: white;
+  padding: 5px;
+}
+
+.container input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
