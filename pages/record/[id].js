@@ -1,10 +1,11 @@
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { MdKeyboardArrowLeft } from 'react-icons/md';
+import { MdKeyboardArrowLeft, MdHelpOutline } from 'react-icons/md';
 
 import { Card } from '../../components/Card';
 import { Graph } from '../../components/Graph';
+import { HoverLabel } from '../../components/HoverLabel';
 import { Input } from '../../components/Input';
 import { Loading } from '../../components/Loading';
 
@@ -17,11 +18,12 @@ import { parseDate, parseHours } from '../../utils/date';
 import style from './style.module.css';
 
 export default function Record() {
-  const defaultInterval = 500;
+  const defaultInterval = 1000;
 
   const router = useRouter();
   const [record, setRecord] = useState({});
   const [averageInterval, setAverageInterval] = useState(defaultInterval);
+  const [firstTimestamp, setFirstTimestamp] = useState(0);
 
   useEffect(() => {
     if (Object.keys(record).length === 0) {
@@ -33,6 +35,7 @@ export default function Record() {
           return;
         }
 
+        setFirstTimestamp(response.sensors.magnetometro[0].timestamp);
         setRecord({ ...response });
       })();
     }
@@ -41,7 +44,7 @@ export default function Record() {
   const parseRecord = (record, key) => {
     const parse = [];
     let sum = 0;
-    let initialTime = record[0].timestamp;
+    let initialTime = firstTimestamp;
     let count = 0;
 
     for (const r of record) {
@@ -49,18 +52,25 @@ export default function Record() {
         sum += r[key];
         count++;
       } else {
-        parse.push({
-          x: (initialTime + (averageInterval / 2) - record[0].timestamp) / 1000,
-          y: Math.round((sum / count) * 1000) / 1000
-        });
-        initialTime += averageInterval;
+        if (count !== 0) {
+          parse.push({
+            x: (initialTime + (averageInterval / 2) - firstTimestamp) / 1000,
+            y: Math.round((sum / count) * 1000) / 1000
+          });
+        }
         sum = r[key];
         count = 1;
+
+        if (r.timestamp < initialTime + (2 * averageInterval))
+          initialTime += averageInterval;
+        else
+          initialTime += Math.floor((r.timestamp - initialTime) / averageInterval) * averageInterval;
+
       }
     }
 
     parse.push({
-      x: (initialTime + (averageInterval / 2) - record[0].timestamp) / 1000,
+      x: (initialTime + (averageInterval / 2) - firstTimestamp) / 1000,
       y: Math.round((sum / count) * 1000) / 1000
     });
 
@@ -92,6 +102,10 @@ export default function Record() {
         </div>
         <div className={style.title}>{record.description}</div>
         <div className={style.averageContainer}>
+          <div className={style.helpIcon}>
+            <MdHelpOutline />
+            <HoverLabel text={`Intervalo padrão: ${averageInterval}ms`} />
+          </div>
           <Input
             placeholder={'Intervalo para média'}
             onChange={value => {
@@ -150,6 +164,14 @@ export default function Record() {
                 </Card>
               ))
             }
+
+            <Card label={'GPS'}>
+              <div className={style.graphsContainer}>
+                <Card label={'Altitude'}>
+                  <Graph data={parseRecord(record.locations, 'alt')} xAxisLabel={'Timestamp (em segundos)'} yAxisLabel={sensorsConfig.locations.yAxisLabel} />
+                </Card>
+              </div>
+            </Card>
           </div>
         </div>
       </div >

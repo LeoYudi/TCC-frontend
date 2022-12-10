@@ -65,3 +65,24 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+
+.helpIcon {
+  font-size: 30px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  position: relative;
+}
+
+.helpIcon>div {
+  visibility: hidden;
+  opacity: 0;
+  min-width: 200px;
+}
+
+.helpIcon:hover>div {
+  visibility: visible;
+  opacity: 1;
+}
