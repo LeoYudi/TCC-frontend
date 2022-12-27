@@ -19,3 +19,7 @@ a {
   box-sizing: border-box;
   transition: 0.1s;
 }
+
+.ol-control {
+  display: none;
+}

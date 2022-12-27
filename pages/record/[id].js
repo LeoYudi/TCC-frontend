@@ -8,6 +8,7 @@ import { Graph } from '../../components/Graph';
 import { HoverLabel } from '../../components/HoverLabel';
 import { Input } from '../../components/Input';
 import { Loading } from '../../components/Loading';
+import { Map } from '../../components/Map';
 
 import { sensorsConfig } from '../../config/sensors';
 
@@ -35,7 +36,13 @@ export default function Record() {
           return;
         }
 
-        setFirstTimestamp(response.sensors.magnetometro[0].timestamp);
+        const min = Math.min(
+          response.sensors.acelerometro[0].timestamp,
+          response.sensors.giroscopio[0].timestamp,
+          response.sensors.magnetometro[0].timestamp
+        )
+        setFirstTimestamp(min);
+
         setRecord({ ...response });
       })();
     }
@@ -165,13 +172,20 @@ export default function Record() {
               ))
             }
 
-            <Card label={'GPS'}>
-              <div className={style.graphsContainer}>
-                <Card label={'Altitude'}>
-                  <Graph data={parseRecord(record.locations, 'alt')} xAxisLabel={'Timestamp (em segundos)'} yAxisLabel={sensorsConfig.locations.yAxisLabel} />
-                </Card>
-              </div>
-            </Card>
+            {
+              record.locations[0] &&
+              <Card label={'GPS'}>
+                <div className={style.graphsContainer}>
+                  <Card label={'Altitude'}>
+                    <Graph data={parseRecord(record.locations, 'alt')} xAxisLabel={'Timestamp (em segundos)'} yAxisLabel={sensorsConfig.locations.yAxisLabel} />
+                  </Card>
+                  <Card label={'Mapa'}>
+                    {console.log(record.locations)}
+                    <Map locations={record.locations} />
+                  </Card>
+                </div>
+              </Card>
+            }
           </div>
         </div>
       </div >
