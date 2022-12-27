@@ -1,8 +1,33 @@
 .map {
   width: 700px;
   height: 500px;
+  position: relative;
+  z-index: 1;
 }
 
 .map ul {
   display: none;
 }
+
+.legend {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+  background-color: white;
+  padding: 10px 20px;
+}
+
+.legendRow {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.square {
+  width: 16px;
+  height: 18px;
+  border: 1px solid black;
+}
+
+.text {}

@@ -7,7 +7,6 @@ import Fill from 'ol/style/Fill';
 import MultiLineString from 'ol/geom/MultiLineString';
 import OlMap from 'ol/Map';
 import OSM from 'ol/source/OSM';
-import Point from 'ol/geom/Point';
 import Stroke from 'ol/style/Stroke';
 import Style from 'ol/style/Style';
 import Tile from 'ol/layer/Tile';
@@ -24,7 +23,7 @@ function Map({ locations }) {
   const [olmap, setOlMap] = useState(null);
 
   const getPointsAndLines = (locations) => {
-    const style = new Style({
+    const circleStyle = new Style({
       fill: new Fill({
         color: '#f9aa33'
       }),
@@ -34,17 +33,45 @@ function Map({ locations }) {
       })
     });
 
+    const startCircleStyle = new Style({
+      fill: new Fill({
+        color: '#fff'
+      }),
+      stroke: new Stroke({
+        color: 'red',
+        width: 3
+      })
+    });
+
+    const finishCircleStyle = new Style({
+      fill: new Fill({
+        color: '#fff'
+      }),
+      stroke: new Stroke({
+        color: '#007bff',
+        width: 3
+      })
+    });
+
     const vectorSourcePoint = new VectorSource({});
     const vectorSourceLines = new VectorSource({});
 
     const coords = [];
 
-    for (const location of locations) {
+    for (const index in locations) {
+      const location = locations[index];
       const coord = fromLonLat([location.lon, location.lat]);
       coords.push(coord);
-      const point = new Circle(coord, 4);
+      const point = new Circle(coord, index == 0 || index == locations.length - 1 ? 6 : 4);
       const feature = new Feature({ geometry: point });
-      feature.setStyle(style);
+
+      if (index == 0)
+        feature.setStyle(startCircleStyle);
+      else if (index == locations.length - 1)
+        feature.setStyle(finishCircleStyle);
+      else
+        feature.setStyle(circleStyle);
+
       vectorSourcePoint.addFeature(feature);
     }
 
@@ -57,12 +84,13 @@ function Map({ locations }) {
 
     vectorSourceLines.addFeature(newFeature);
 
-    return { style, vectorSourceLines, vectorSourcePoint };
+    return { vectorSourceLines, vectorSourcePoint };
   };
 
   useEffect(() => {
     if (!olmap) {
-      const { style, vectorSourceLines, vectorSourcePoint } = getPointsAndLines(locations);
+      const { vectorSourceLines, vectorSourcePoint } = getPointsAndLines(locations);
+      //console.log(vectorSourcePoint.getFeatures());
 
       const firstMap = new OlMap({
         target: 'map',
@@ -75,7 +103,6 @@ function Map({ locations }) {
           }),
           new Vector({
             source: vectorSourcePoint,
-            //style: style
           })
         ],
         view: new View({
@@ -97,7 +124,22 @@ function Map({ locations }) {
   }, [center, locations, olmap, zoom]);
 
   return (
-    <div id='map' className={styles.map} />
+    <div id='map' className={styles.map}>
+      <div className={styles.legend}>
+        <div className={styles.legendRow}>
+          <div className={styles.square} style={{ backgroundColor: 'red' }} />
+          <div className={styles.text}>
+            Início
+          </div>
+        </div>
+        <div className={styles.legendRow}>
+          <div className={styles.square} style={{ backgroundColor: '#007bff' }} />
+          <div className={styles.text}>
+            Fim
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 

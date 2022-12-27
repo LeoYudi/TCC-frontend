@@ -180,7 +180,6 @@ export default function Record() {
                     <Graph data={parseRecord(record.locations, 'alt')} xAxisLabel={'Timestamp (em segundos)'} yAxisLabel={sensorsConfig.locations.yAxisLabel} />
                   </Card>
                   <Card label={'Mapa'}>
-                    {console.log(record.locations)}
                     <Map locations={record.locations} />
                   </Card>
                 </div>
