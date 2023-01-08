@@ -62,7 +62,7 @@ function Map({ locations }) {
       const location = locations[index];
       const coord = fromLonLat([location.lon, location.lat]);
       coords.push(coord);
-      const point = new Circle(coord, index == 0 || index == locations.length - 1 ? 6 : 4);
+      const point = new Circle(coord, index == 0 || index == locations.length - 1 ? 6 : 1.5);
       const feature = new Feature({ geometry: point });
 
       if (index == 0)
